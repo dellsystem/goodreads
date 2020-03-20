@@ -42,6 +42,7 @@ class GoodreadsClient():
             self.session.oauth_resume()
         else:
             url = self.session.oauth_init()
+            print(url)
             webbrowser.open(url)
             while input("Have you authorized me? (y/n)") != 'y':
                 pass
