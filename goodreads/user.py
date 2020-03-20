@@ -1,4 +1,5 @@
 import collections
+import datetime
 
 from . import group
 from . import owned_book
@@ -36,6 +37,12 @@ class GoodreadsUser():
     def link(self):
         """URL for user profile"""
         return self._user_dict['link']
+
+    @property
+    def joined(self):
+        """User join date"""
+        date_string = self._user_dict['joined']
+        return datetime.datetime.strptime(date_string, '%d/%Y').date()
 
     @property
     def image_url(self):
