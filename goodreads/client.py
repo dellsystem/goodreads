@@ -108,6 +108,11 @@ class GoodreadsClient():
         """
         resp = self.request("search/index.xml",
                             {'q': q, 'page': page, 'search[field]': search_field})
+
+        # If the 'results' field is None, return an empty list.
+        if not resp['search']['results']:
+            return []
+
         works = resp['search']['results']['work']
         # If there's only one work returned, put it in a list.
         if type(works) == collections.OrderedDict:
