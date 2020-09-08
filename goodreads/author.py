@@ -28,11 +28,17 @@ class GoodreadsAuthor:
         # Goodreads API returns a list if there are more than one books, otherwise,
         # just the OrderedDict.
         from .book import GoodreadsBook
-        if type(self._author_dict['books']['book']) == list:
-            return [GoodreadsBook(book_dict, self._client)
-                    for book_dict in self._author_dict['books']['book']]
+
+        # If this author data came from the book endpoint, then the 'books' key
+        # will be missing, in which case return an empty list.
+        if self._author_dict.get('books'):
+            if type(self._author_dict['books']['book']) == list:
+                return [GoodreadsBook(book_dict, self._client)
+                        for book_dict in self._author_dict['books']['book']]
+            else:
+                return [GoodreadsBook(self._author_dict['books']['book'], self._client)]
         else:
-            return [GoodreadsBook(self._author_dict['books']['book'], self._client)]
+            return []
 
     @property
     def born_at(self):
